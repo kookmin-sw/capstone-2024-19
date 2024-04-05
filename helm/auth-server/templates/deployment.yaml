@@ -61,7 +61,6 @@ spec:
                 configMapKeyRef:
                   name: redis-cluster
                   key: redis-host
-                  # value: redis-cluster.redis
             - name: AUTH_REDIS_PORT
               valueFrom:
                 configMapKeyRef:
