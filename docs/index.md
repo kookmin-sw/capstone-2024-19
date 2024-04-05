@@ -21,6 +21,7 @@
             <a>마법사</a>
             <br>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/c2f1ac03-4f6f-47c2-8076-51432261bf76">
+
         </td>
         <td>
             <a>딜레마</a>

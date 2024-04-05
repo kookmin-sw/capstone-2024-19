@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: auth-service
+
+  datasource:
+    url: jdbc:postgresql://0.0.0.0:5432/auth
+    username: auth
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+  data:
+    redis:
+      port: 6379
+      host: 0.0.0.0
+
+jwt:
+  secret: "test_JWT_secret"
+  access_expiration: 3600000
+  refresh_expiration: 86400000
+
+server:
+  port: 8080
+
+

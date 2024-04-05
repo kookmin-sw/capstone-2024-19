@@ -1,0 +1,59 @@
+name: Magician-Server Test
+
+on:
+  pull_request:
+    branches: 
+    - back-dev
+    - back/**
+    paths: 'magician/**'
+  push:
+    branches: 
+    - back-dev
+    - back/**
+    paths: 'magician/**'
+env:
+  working-directory: ./magician
+  OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+  MAGICIAN_MONGO_HOST: '0.0.0.0'
+  MAGICIAN_MONGO_PASSWORD: 1234
+  MAGICIAN_MONGO_PORT: 27017
+  MAGICIAN_MONGO_USERNAME: 'root'
+
+jobs:
+  test:
+    name: Test-Magician
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 체크아웃
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      # 몽고디비 설정
+      - name: mongo-action
+        uses: supercharge/mongodb-github-action@v1
+        with:
+          mongodb-db: 'chat_db'
+          mongodb-username: 'root'
+          mongodb-password: 1234
+      
+      # 파이썬 환경설정
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11.8
+      
+      # requirements 다운
+      - name: Install requirements.txt
+        run: pip install -r requirements.txt
+        working-directory: ${{ env.working-directory }}
+
+      # 백그라운드 어플리케이션 실행
+      - name: Start application
+        run: python main.py &
+        working-directory: ${{ env.working-directory }}
+        
+      # 테스트 실행
+      - name: Test with pytest
+        run: pytest
+        working-directory: ${{ env.working-directory }}

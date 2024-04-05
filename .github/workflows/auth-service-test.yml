@@ -1,0 +1,61 @@
+name: Auth-Server Test
+
+# back-dev, back 하위 브랜치에 풀리퀘, 푸시가 일어날때 auth-server 하위에 변경이 있다면 실행.
+on:
+  pull_request:
+    branches: 
+    - back-dev
+    - back/**
+    paths: 'auth-service/**'
+  push:
+    branches: 
+    - back-dev
+    - back/**
+    paths: 'auth-service/**'
+    
+env:
+  working-directory: ./auth-service
+
+jobs:
+  test:
+    name: Test-Auth
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - "6379:6379"
+        env:
+          TZ: "Asia/Seoul"
+    
+      postgres:
+        image: postgres:latest
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: auth
+          POSTGRES_USER: auth
+          POSTGRES_PASSWORD: 1234
+          TZ: "Asia/Seoul"
+          
+    steps:
+    # 체크아웃
+    - name: Checkout Source
+      uses: actions/checkout@v4
+      
+    # 자바 17 환경설정
+    - name: Setup Java17
+      uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'zulu'
+    
+    # Gradle 실행권한 부여
+    - name: Grant execute permission to gradlew
+      run: chmod +x ./gradlew
+      working-directory: ${{ env.working-directory }}
+
+    # Spring boot application 테스트 실행
+    - name: Test with gradle
+      run: ./gradlew test
+      working-directory: ${{ env.working-directory }}

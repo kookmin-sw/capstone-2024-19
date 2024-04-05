@@ -1,0 +1,9 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-ip-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.49.3-192.168.49.200
+#   - 192.168.49.240-192.168.49.250 # 이 방법도 가능

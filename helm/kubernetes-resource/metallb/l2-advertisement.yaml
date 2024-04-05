@@ -1,0 +1,9 @@
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: first-metallb-l2
+  namespace: metallb-system
+spec:
+  # 이걸 정의하지 않으면 모든 ip pool 에 대해 advertisement 를 수행
+  ipAddressPools: 
+  - first-ip-pool
