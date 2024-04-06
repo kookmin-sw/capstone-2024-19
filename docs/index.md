@@ -14,18 +14,23 @@
 ###  🍀 커뮤니티
 - 마법사, 딜레마에서 나온 결과를 토대로 자유롭게 얘기를 나눌 수 있는 커뮤니티
 
-<br/>
+</br>
+
+## 🎥 실행 영상 (미완)
 <table>
     <tr align='center'>
         <td>
-            <a>마법사</a>
-            <br>
-            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/c2f1ac03-4f6f-47c2-8076-51432261bf76">
-
+            <h3> 마법사
         </td>
         <td>
-            <a>딜레마</a>
-            <br>
+            <h3> 딜레마
+        </td>
+    </tr>
+    <tr align='center'>
+        <td>
+            <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/c2f1ac03-4f6f-47c2-8076-51432261bf76">
+        </td>
+        <td>
             <img src="https://github.com/kookmin-sw/capstone-2024-19/assets/48516380/c6856ac4-7554-4b32-9f98-446fb5ade221">
         </td>
     </tr>
