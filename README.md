@@ -51,15 +51,6 @@
               ****1630
         </td>
         <td style="min-width: 150px;">
-            <a href="https://github.com/Misun-k">
-              <img src="https://github.com/Misun-k.png" width="100">
-              <br />
-              <b>김미선(Misun-k)</b>
-            </a> 
-            <br/>
-              ****1583
-        </td>
-        <td style="min-width: 150px;">
             <a href="https://github.com/ggstargame45">
               <img src="https://github.com/ggstargame45.png" width="100">
               <br />
@@ -88,9 +79,6 @@
         </td>
     </tr>
     <tr align="center">
-        <td>
-            Frontend
-        </td>
         <td>
             Frontend
         </td>
