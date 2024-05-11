@@ -40,11 +40,12 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          # Probe 점검하지 않는다, 현재 서버에 probe에 응답하는 api가 없음
-          livenessProbe:
-            {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            {{- toYaml .Values.readinessProbe | nindent 12 }}
+            {{- if .Values.probe.enabled }}
+            livenessProbe:
+            {{- toYaml .Values.probe.livenessProbe | nindent 12 }}
+            readinessProbe:
+            {{- toYaml .Values.probe.readinessProbe | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
@@ -60,27 +61,27 @@ spec:
             - name: AUTH_REDIS_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: redis-cluster
+                  name: auth-server-configmap
                   key: redis-host
             - name: AUTH_REDIS_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: redis-cluster
+                  name: auth-server-configmap
                   key: redis-port
             - name: AUTH_POSTGRES_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: postgresql
+                  name: auth-server-configmap
                   key: postgres-host
             - name: AUTH_POSTGRES_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: postgresql
+                  name: auth-server-configmap
                   key: postgres-port
             - name: AUTH_POSTGRES_USER
               valueFrom:
                 configMapKeyRef:
-                  name: postgresql
+                  name: auth-server-configmap
                   key: postgres-user
             - name: AUTH_POSTGRES_PASSWORD
               valueFrom:
@@ -95,12 +96,12 @@ spec:
             - name: ACCESS_EXPIRATION
               valueFrom:
                 configMapKeyRef:
-                  name: jumunser-auth
+                  name: auth-server-configmap
                   key: access-expiration
             - name: REFRESH_EXPIRATION
               valueFrom:
                 configMapKeyRef:
-                  name: jumunser-auth
+                  name: auth-server-configmap
                   key: access-expiration
       {{- with .Values.volumes }}
       volumes:
