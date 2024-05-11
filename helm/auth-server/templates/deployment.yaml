@@ -41,20 +41,21 @@ spec:
               containerPort: {{ .Values.service.port }}
               protocol: TCP
           # Probe 점검하지 않는다, 현재 서버에 probe에 응답하는 api가 없음
-          # livenessProbe:
-          #   {{- toYaml .Values.livenessProbe | nindent 12 }}
-          # readinessProbe:
-          #   {{- toYaml .Values.readinessProbe | nindent 12 }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
+          {{- end }}
           env:
             - name: AUTH_REDIS_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: redis-cluster
+                  name: auth-server-secret
                   key: redis-password
             - name: AUTH_REDIS_HOST
               valueFrom:
@@ -84,12 +85,12 @@ spec:
             - name: AUTH_POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresql
+                  name: auth-server-secret
                   key: postgres-password
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: jumunser-auth
+                  name: auth-server-secret
                   key: jwt-secret
             - name: ACCESS_EXPIRATION
               valueFrom:
@@ -101,7 +102,6 @@ spec:
                 configMapKeyRef:
                   name: jumunser-auth
                   key: access-expiration
-          {{- end }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
