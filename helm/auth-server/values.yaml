@@ -20,7 +20,7 @@ configs:
     redis-port: 6379
     postgres-host: postgresql-hl.postgresql
     postgres-port: 5432
-    postgres-user: v4
+    postgres-user: auth
     access-expiration: 3600
     refresh-expiration: 86400
   secrets:
@@ -89,14 +89,16 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
+probe:
+  enabled: false
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
 
 autoscaling:
   enabled: false
