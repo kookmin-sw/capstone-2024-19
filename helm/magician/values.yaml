@@ -16,7 +16,12 @@ fullnameOverride: ""
 
 configs:
   cm:
+    magician-mongo-username: magician
+    magician-mongo-host: mongodb
+    magician-mongo-port: 27017
   secrets:
+    magician-mongo-password: 1234
+    openai-key: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

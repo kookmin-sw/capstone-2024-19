@@ -52,6 +52,32 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          env:
+            - name: OPENAI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: magician-secret
+                  key: openai-key
+            - name: MAGICIAN_MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: magician-secret
+                  key: magician-mongo-password
+            - name: MAGICIAN_MONGO_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: magician-configmap
+                  key: magician-mongo-username
+            - name: MAGICIAN_MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: magician-configmap
+                  key: magician-mongo-host
+            - name: MAGICIAN_MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: magician-configmap
+                  key: magician-mongo-port
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
