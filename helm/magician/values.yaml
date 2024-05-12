@@ -20,7 +20,7 @@ configs:
     magician-mongo-host: mongodb
     magician-mongo-port: 27017
   secrets:
-    magician-mongo-password: 1234
+    magician-mongo-password: ""
     openai-key: ""
 
 serviceAccount:
