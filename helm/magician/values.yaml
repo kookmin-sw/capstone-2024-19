@@ -19,8 +19,11 @@ configs:
     magician-mongo-username: magician
     magician-mongo-host: mongodb
     magician-mongo-port: 27017
+    magician-redis-host: redis-cluster-headless.redis
+    magician-redis-port: 6379
   secrets:
     magician-mongo-password: ""
+    magician-redis-password: ""
     openai-key: ""
 
 serviceAccount:

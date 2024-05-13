@@ -78,6 +78,21 @@ spec:
                 configMapKeyRef:
                   name: magician-configmap
                   key: magician-mongo-port
+            - name: MAGICIAN_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: magician-secret
+                  key: magician-redis-password
+            - name: MAGICIAN_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: magician-configmap
+                  key: magician-redis-host
+            - name: MAGICIAN_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: magician-configmap
+                  key: magician-redis-port
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
