@@ -14,6 +14,18 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+configs:
+  cm:
+    debate-postgres-host: postgresql-hl.postgresql
+    debate-postgres-port: 5432
+    debate-postgres-user: debate
+    debate-redis-host: redis-cluster-headless.redis
+    debate-redis-port: 6379
+  secrets:
+    debate-postgres-password: ""
+    debate-redis-password: ""
+    openai-key: ""
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

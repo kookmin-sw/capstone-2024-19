@@ -52,6 +52,42 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          env:
+            - name: OPENAI_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: debate-secret
+                  key: openai-key
+            - name: DEBATE_POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: debate-config
+                  key: debate-postgres-host
+            - name: DEBATE_POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: debate-config
+                  key: debate-postgres-port
+            - name: DEBATE_POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: debate-config
+                  key: debate-postgres-user
+            - name: DEBATE_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: debate-config
+                  key: debate-redis-host
+            - name: DEBATE_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: debate-config
+                  key: debate-redis-port
+            - name: DEBATE_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: debate-secret
+                  key: debate-redis-password
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
