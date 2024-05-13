@@ -40,12 +40,12 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-            {{- if .Values.probe.enabled }}
-            livenessProbe:
+          {{- if .Values.probe.enabled }}
+          livenessProbe:
             {{- toYaml .Values.probe.livenessProbe | nindent 12 }}
-            readinessProbe:
+          readinessProbe:
             {{- toYaml .Values.probe.readinessProbe | nindent 12 }}
-            {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
