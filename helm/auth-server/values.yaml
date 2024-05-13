@@ -24,9 +24,9 @@ configs:
     access-expiration: 3600
     refresh-expiration: 86400
   secrets:
-    redis-password: v1
-    postgres-password: v2
-    jwt-secret: v3
+    redis-password: ""
+    postgres-password: ""
+    jwt-secret: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -57,7 +57,7 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 ingress:
   enabled: false
