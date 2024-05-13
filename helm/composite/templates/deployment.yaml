@@ -52,6 +52,27 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          env:
+            - name: COMPOSITE_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: composite-configmap
+                  key: composite-redis-host
+            - name: COMPOSITE_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: composite-configmap
+                  key: composite-redis-port
+            - name: COMPOSITE_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: composite-secret
+                  key: composite-redis-password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: composite-secret
+                  key: jwt-secret
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

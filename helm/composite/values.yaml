@@ -14,6 +14,14 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+configs:
+  cm:
+    composite-redis-host: redis-cluster-headless.redis
+    composite-redis-port: 6379
+  secrets:
+    composite-redis-password: ""
+    jwt-secret: ""
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
