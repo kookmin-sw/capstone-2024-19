@@ -27,6 +27,14 @@ configs:
     redis-password: ""
     postgres-password: ""
     jwt-secret: ""
+    google-client-id: ""
+    google-client-secret: ""
+    apple-client-id: ""
+    apple-client-secret: ""
+    aws-access-key: ""
+    aws-secret-key: ""
+    aws-s3-bucket: ""
+    aws-s3-region: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

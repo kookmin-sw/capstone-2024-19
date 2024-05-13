@@ -103,6 +103,46 @@ spec:
                 configMapKeyRef:
                   name: auth-server-configmap
                   key: access-expiration
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: google-client-id
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: google-client-secret
+            - name: APPLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: apple-client-id
+            - name: APPLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: apple-client-secret
+            - name: AWS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: aws-access-key
+            - name: AWS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: aws-secret-key
+            - name: AWS_S3_BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: aws-s3-bucket
+            - name: AWS_S3_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: auth-server-secret
+                  key: aws-s3-region
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
