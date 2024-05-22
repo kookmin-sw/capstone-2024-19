@@ -9,7 +9,7 @@ class UserInfoResponseModel with _$UserInfoResponseModel{
   factory UserInfoResponseModel(
       {required String code,
       required String message,
-      required InfoModel data}) = _UserInfoResponseModel;
+      required InfoModel? data}) = _UserInfoResponseModel;
 
   factory UserInfoResponseModel.fromJson(Map<String, dynamic> json) =>
     _$UserInfoResponseModelFromJson(json);

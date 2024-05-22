@@ -83,7 +83,7 @@ class WizardCubit extends Cubit<WizardState> {
     state.chats.clear();
 
     Map<String, dynamic> header = {'Authorization':context.read<AuthCubit>().getAcessToken()};
-    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://jumunseo.com/ws'), headers:header);
+    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8080/ws'), headers:header);
 
     logger.d('서버 연결 시작');
 

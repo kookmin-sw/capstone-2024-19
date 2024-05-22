@@ -23,7 +23,7 @@ UserEditResponseModel _$UserEditResponseModelFromJson(
 mixin _$UserEditResponseModel {
   String get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  EditInfoModel get data => throw _privateConstructorUsedError;
+  EditInfoModel? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,9 +37,9 @@ abstract class $UserEditResponseModelCopyWith<$Res> {
           $Res Function(UserEditResponseModel) then) =
       _$UserEditResponseModelCopyWithImpl<$Res, UserEditResponseModel>;
   @useResult
-  $Res call({String code, String message, EditInfoModel data});
+  $Res call({String code, String message, EditInfoModel? data});
 
-  $EditInfoModelCopyWith<$Res> get data;
+  $EditInfoModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$UserEditResponseModelCopyWithImpl<$Res,
   $Res call({
     Object? code = null,
     Object? message = null,
-    Object? data = null,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -69,17 +69,21 @@ class _$UserEditResponseModelCopyWithImpl<$Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as EditInfoModel,
+              as EditInfoModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $EditInfoModelCopyWith<$Res> get data {
-    return $EditInfoModelCopyWith<$Res>(_value.data, (value) {
+  $EditInfoModelCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $EditInfoModelCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -94,10 +98,10 @@ abstract class _$$UserEditResponseModelImplCopyWith<$Res>
       __$$UserEditResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String message, EditInfoModel data});
+  $Res call({String code, String message, EditInfoModel? data});
 
   @override
-  $EditInfoModelCopyWith<$Res> get data;
+  $EditInfoModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -114,7 +118,7 @@ class __$$UserEditResponseModelImplCopyWithImpl<$Res>
   $Res call({
     Object? code = null,
     Object? message = null,
-    Object? data = null,
+    Object? data = freezed,
   }) {
     return _then(_$UserEditResponseModelImpl(
       code: null == code
@@ -125,10 +129,10 @@ class __$$UserEditResponseModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as EditInfoModel,
+              as EditInfoModel?,
     ));
   }
 }
@@ -147,7 +151,7 @@ class _$UserEditResponseModelImpl implements _UserEditResponseModel {
   @override
   final String message;
   @override
-  final EditInfoModel data;
+  final EditInfoModel? data;
 
   @override
   String toString() {
@@ -187,7 +191,7 @@ abstract class _UserEditResponseModel implements UserEditResponseModel {
   factory _UserEditResponseModel(
       {required final String code,
       required final String message,
-      required final EditInfoModel data}) = _$UserEditResponseModelImpl;
+      required final EditInfoModel? data}) = _$UserEditResponseModelImpl;
 
   factory _UserEditResponseModel.fromJson(Map<String, dynamic> json) =
       _$UserEditResponseModelImpl.fromJson;
@@ -197,7 +201,7 @@ abstract class _UserEditResponseModel implements UserEditResponseModel {
   @override
   String get message;
   @override
-  EditInfoModel get data;
+  EditInfoModel? get data;
   @override
   @JsonKey(ignore: true)
   _$$UserEditResponseModelImplCopyWith<_$UserEditResponseModelImpl>

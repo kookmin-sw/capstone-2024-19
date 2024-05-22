@@ -11,7 +11,9 @@ _$UserInfoResponseModelImpl _$$UserInfoResponseModelImplFromJson(
     _$UserInfoResponseModelImpl(
       code: json['code'] as String,
       message: json['message'] as String,
-      data: InfoModel.fromJson(json['data'] as Map<String, dynamic>),
+      data: json['data'] == null
+          ? null
+          : InfoModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UserInfoResponseModelImplToJson(

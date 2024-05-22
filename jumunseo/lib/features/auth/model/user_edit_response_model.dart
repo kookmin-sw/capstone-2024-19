@@ -9,7 +9,7 @@ class UserEditResponseModel with _$UserEditResponseModel{
   factory UserEditResponseModel(
       {required String code,
       required String message,
-      required EditInfoModel data}) = _UserEditResponseModel;
+      required EditInfoModel? data}) = _UserEditResponseModel;
 
   factory UserEditResponseModel.fromJson(Map<String, dynamic> json) =>
     _$UserEditResponseModelFromJson(json);

@@ -23,7 +23,7 @@ UserInfoResponseModel _$UserInfoResponseModelFromJson(
 mixin _$UserInfoResponseModel {
   String get code => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
-  InfoModel get data => throw _privateConstructorUsedError;
+  InfoModel? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,9 +37,9 @@ abstract class $UserInfoResponseModelCopyWith<$Res> {
           $Res Function(UserInfoResponseModel) then) =
       _$UserInfoResponseModelCopyWithImpl<$Res, UserInfoResponseModel>;
   @useResult
-  $Res call({String code, String message, InfoModel data});
+  $Res call({String code, String message, InfoModel? data});
 
-  $InfoModelCopyWith<$Res> get data;
+  $InfoModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -58,7 +58,7 @@ class _$UserInfoResponseModelCopyWithImpl<$Res,
   $Res call({
     Object? code = null,
     Object? message = null,
-    Object? data = null,
+    Object? data = freezed,
   }) {
     return _then(_value.copyWith(
       code: null == code
@@ -69,17 +69,21 @@ class _$UserInfoResponseModelCopyWithImpl<$Res,
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as InfoModel,
+              as InfoModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $InfoModelCopyWith<$Res> get data {
-    return $InfoModelCopyWith<$Res>(_value.data, (value) {
+  $InfoModelCopyWith<$Res>? get data {
+    if (_value.data == null) {
+      return null;
+    }
+
+    return $InfoModelCopyWith<$Res>(_value.data!, (value) {
       return _then(_value.copyWith(data: value) as $Val);
     });
   }
@@ -94,10 +98,10 @@ abstract class _$$UserInfoResponseModelImplCopyWith<$Res>
       __$$UserInfoResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String code, String message, InfoModel data});
+  $Res call({String code, String message, InfoModel? data});
 
   @override
-  $InfoModelCopyWith<$Res> get data;
+  $InfoModelCopyWith<$Res>? get data;
 }
 
 /// @nodoc
@@ -114,7 +118,7 @@ class __$$UserInfoResponseModelImplCopyWithImpl<$Res>
   $Res call({
     Object? code = null,
     Object? message = null,
-    Object? data = null,
+    Object? data = freezed,
   }) {
     return _then(_$UserInfoResponseModelImpl(
       code: null == code
@@ -125,10 +129,10 @@ class __$$UserInfoResponseModelImplCopyWithImpl<$Res>
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      data: null == data
+      data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as InfoModel,
+              as InfoModel?,
     ));
   }
 }
@@ -147,7 +151,7 @@ class _$UserInfoResponseModelImpl implements _UserInfoResponseModel {
   @override
   final String message;
   @override
-  final InfoModel data;
+  final InfoModel? data;
 
   @override
   String toString() {
@@ -187,7 +191,7 @@ abstract class _UserInfoResponseModel implements UserInfoResponseModel {
   factory _UserInfoResponseModel(
       {required final String code,
       required final String message,
-      required final InfoModel data}) = _$UserInfoResponseModelImpl;
+      required final InfoModel? data}) = _$UserInfoResponseModelImpl;
 
   factory _UserInfoResponseModel.fromJson(Map<String, dynamic> json) =
       _$UserInfoResponseModelImpl.fromJson;
@@ -197,7 +201,7 @@ abstract class _UserInfoResponseModel implements UserInfoResponseModel {
   @override
   String get message;
   @override
-  InfoModel get data;
+  InfoModel? get data;
   @override
   @JsonKey(ignore: true)
   _$$UserInfoResponseModelImplCopyWith<_$UserInfoResponseModelImpl>

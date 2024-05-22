@@ -14,10 +14,12 @@ import 'package:jumunseo/features/auth/data/repository/auth_repository.dart';
 import 'package:jumunseo/features/auth/model/image_response_model.dart';
 import 'package:jumunseo/features/auth/model/logout_model.dart';
 import 'package:jumunseo/features/auth/model/profile_edit_model.dart';
+import 'package:jumunseo/features/auth/model/reissue_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_model.dart';
 import 'package:jumunseo/features/auth/model/sign_in_response_model.dart';
 import 'package:jumunseo/features/auth/model/sign_up_model.dart';
 import 'package:jumunseo/features/auth/model/user_delete_model.dart';
+import 'package:jumunseo/features/auth/model/user_edit_response_model.dart';
 import 'package:jumunseo/features/auth/model/user_info_response_model.dart';
 import 'package:jumunseo/features/auth/view/delete_user_ask_dialog.dart';
 import 'package:jumunseo/features/auth/view/login_ask_dialog.dart';
@@ -60,7 +62,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     final baseOptions = BaseOptions(
-      baseUrl: 'http://jumunseo.com',
+      baseUrl: 'http://10.0.2.2:8080',
       contentType: Headers.jsonContentType,
       validateStatus: (int? status) {
         return status != null;
@@ -71,16 +73,33 @@ class AuthCubit extends Cubit<AuthState> {
     dio.interceptors.addAll(
       [
         const Interceptor(),
+        CookieManager(state.cookJar),
       ]
     );
 
     AuthRepository repo = AuthRepository(dio);
-    UserInfoResponseModel userInfo = await repo.getUserInfo(state.accessToken);
+    UserInfoResponseModel userInfo;
+
+    while(true){
+      userInfo = await repo.getUserInfo(state.accessToken);
+
+      if(userInfo.code == "FAIL" && userInfo.message == "토큰이 유효하지 않습니다.") {
+        ReIssueModel reissue = await repo.getReIssue(state.accessToken);
+        emit(state.copyWith(accessToken: reissue.data.accessToken));
+      }
+      else {
+        break;
+      }
+    }
 
     if(userInfo.code == 'SUCCESS') {
-      LoginStatus.name.value = userInfo.data.name;
-      LoginStatus.imageUrl.value = userInfo.data.profileImageUrl ?? '';
-      emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl.value, name: LoginStatus.name.value));
+      final data = userInfo.data;
+
+      if(data != null){
+        LoginStatus.name.value = data.name;
+        LoginStatus.imageUrl.value = data.profileImageUrl ?? '';
+        emit(state.copyWith(profileImageUrl: LoginStatus.imageUrl.value, name: LoginStatus.name.value));
+      }
     }
   }
 
@@ -94,7 +113,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     logger.d("이미지 클릭");
     final baseOptions = BaseOptions(
-      baseUrl: 'http://jumunseo.com',
+      baseUrl: 'http://10.0.2.2:8080',
       validateStatus: (int? status) {
         return status != null;
       },
@@ -105,6 +124,7 @@ class AuthCubit extends Cubit<AuthState> {
     dio.interceptors.addAll(
       [
         const Interceptor(),
+        CookieManager(state.cookJar),
       ]
     );
 
@@ -112,7 +132,19 @@ class AuthCubit extends Cubit<AuthState> {
     
     if (file != null) {
       AuthRepository repo = AuthRepository(dio);
-      ImageResponseModel userInfo = await repo.uploadImage(state.accessToken, File(file.path));
+      ImageResponseModel userInfo;
+      
+      while(true){
+        userInfo = await repo.uploadImage(state.accessToken, File(file.path));
+
+        if(userInfo.code == "FAIL" && userInfo.message == "토큰이 유효하지 않습니다.") {
+          ReIssueModel reissue = await repo.getReIssue(state.accessToken);
+          emit(state.copyWith(accessToken: reissue.data.accessToken));
+        }
+        else {
+          break;
+        }
+      }
 
       if(userInfo.code == 'SUCCESS') {
         LoginStatus.imageUrl.value = userInfo.data ?? '';
@@ -130,7 +162,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     final baseOptions = BaseOptions(
-      baseUrl: 'http://jumunseo.com',
+      baseUrl: 'http://10.0.2.2:8080',
       validateStatus: (int? status) {
         return status != null;
       },
@@ -141,11 +173,24 @@ class AuthCubit extends Cubit<AuthState> {
     dio.interceptors.addAll(
       [
         const Interceptor(),
+        CookieManager(state.cookJar),
       ]
     );
 
     AuthRepository repo = AuthRepository(dio);
-    ImageResponseModel userInfo = await repo.deleteImage(state.accessToken);
+    ImageResponseModel userInfo;
+    
+    while(true){
+      userInfo = await repo.deleteImage(state.accessToken);
+
+      if(userInfo.code == "FAIL" && userInfo.message == "토큰이 유효하지 않습니다.") {
+        ReIssueModel reissue = await repo.getReIssue(state.accessToken);
+        emit(state.copyWith(accessToken: reissue.data.accessToken));
+      }
+      else {
+        break;
+      }
+    }
 
     if(userInfo.code == 'SUCCESS') {
       LoginStatus.imageUrl.value = userInfo.data ?? '';
@@ -162,7 +207,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     final baseOptions = BaseOptions(
-      baseUrl: 'http://jumunseo.com',
+      baseUrl: 'http://10.0.2.2:8080',
       contentType: Headers.jsonContentType,
       validateStatus: (int? status) {
         return status != null;
@@ -196,7 +241,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     if(password == repassword && name != '') {
       final baseOptions = BaseOptions(
-        baseUrl: 'http://jumunseo.com',
+        baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -214,14 +259,34 @@ class AuthCubit extends Cubit<AuthState> {
 
       AuthRepository repo = AuthRepository(dio);
       ProfileEditModel editModel = ProfileEditModel(password: password, name: name);
-      final response = await repo.profileEdit(state.accessToken, editModel);
+
+
+      UserEditResponseModel response;
+      
+      while(true){
+        response = await repo.profileEdit(state.accessToken, editModel);
+
+        if(response.code == "FAIL" && response.message == "토큰이 유효하지 않습니다.") {
+          logger.d('엑세스 토큰 재발급');
+          ReIssueModel reissue = await repo.getReIssue(state.accessToken);
+          emit(state.copyWith(accessToken: reissue.data.accessToken));
+        }
+        else {
+          break;
+        }
+      }
+
+      logger.d('엑세스 토큰 재발급 성공');
 
       if(response.code == 'SUCCESS') {
-        logger.d(response.data.accessToken);
-        LoginStatus.name.value = response.data.name;
-        emit(state.copyWith(accessToken: response.data.accessToken, password: password, name: LoginStatus.name.value));
-        context.pop();
+        final data = response.data;
+
+        if(data != null){
+          LoginStatus.name.value = data.name;
+          emit(state.copyWith(accessToken: data.accessToken, password: password, name: LoginStatus.name.value));
+          context.pop();
         return 0;
+        }
       }
 
       return -1;
@@ -244,7 +309,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     if(password == repassword && name != '') {
       final baseOptions = BaseOptions(
-        baseUrl: 'http://jumunseo.com',
+        baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -286,7 +351,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     final baseOptions = BaseOptions(
-        baseUrl: 'http://jumunseo.com',
+        baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -355,7 +420,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     if(!LoginStatus.isGeust){
       final baseOptions = BaseOptions(
-        baseUrl: 'http://jumunseo.com',
+        baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -371,9 +436,17 @@ class AuthCubit extends Cubit<AuthState> {
       );
 
       AuthRepository repo = AuthRepository(dio);
-      LogoutModel response = await repo.logout(state.accessToken);
+      LogoutModel response;
+
+      response = await repo.logout(state.accessToken);
 
       if(response.code == 'SUCCESS') {
+        LoginStatus.isLogin = false;
+        emit(state.copyWith(name: "", email: "", password: "", accessToken: "", isLogin: LoginStatus.isLogin));
+        LoginStatus.isGeust = false;
+        context.go('/auth');
+      }
+      else if(response.code == 'FAIL' && response.message == '토큰이 유효하지 않습니다.') {
         LoginStatus.isLogin = false;
         emit(state.copyWith(name: "", email: "", password: "", accessToken: "", isLogin: LoginStatus.isLogin));
         LoginStatus.isGeust = false;
@@ -396,7 +469,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     if(!LoginStatus.isGeust){
       final baseOptions = BaseOptions(
-        baseUrl: 'http://jumunseo.com',
+        baseUrl: 'http://10.0.2.2:8080',
         contentType: Headers.jsonContentType,
         validateStatus: (int? status) {
           return status != null;
@@ -415,6 +488,12 @@ class AuthCubit extends Cubit<AuthState> {
       UserDeleteModel response = await repo.deleteUser(state.accessToken);
 
       if(response.code == 'SUCCESS') {
+        LoginStatus.isLogin = false;
+        emit(state.copyWith(name: "", email: "", password: "", accessToken: "", isLogin: LoginStatus.isLogin));
+        LoginStatus.isGeust = false;
+        context.go('/auth');
+      }
+      else if(response.code == 'FAIL' && response.message == '토큰이 유효하지 않습니다.') {
         LoginStatus.isLogin = false;
         emit(state.copyWith(name: "", email: "", password: "", accessToken: "", isLogin: LoginStatus.isLogin));
         LoginStatus.isGeust = false;

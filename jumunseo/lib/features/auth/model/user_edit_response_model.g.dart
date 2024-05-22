@@ -11,7 +11,9 @@ _$UserEditResponseModelImpl _$$UserEditResponseModelImplFromJson(
     _$UserEditResponseModelImpl(
       code: json['code'] as String,
       message: json['message'] as String,
-      data: EditInfoModel.fromJson(json['data'] as Map<String, dynamic>),
+      data: json['data'] == null
+          ? null
+          : EditInfoModel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$UserEditResponseModelImplToJson(
