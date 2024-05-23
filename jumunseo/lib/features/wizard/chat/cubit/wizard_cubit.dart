@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumunseo/core/logger.dart';
 import 'package:jumunseo/features/auth/auth.dart';
+import 'package:jumunseo/features/auth/data/repository/auth_repository.dart';
+import 'package:jumunseo/features/auth/model/reissue_model.dart';
 import 'package:jumunseo/features/auth/view/not_network_dialog.dart';
 import '../chat.dart';
 import 'package:web_socket_channel/io.dart';
@@ -82,8 +84,9 @@ class WizardCubit extends Cubit<WizardState> {
     state.myChat.clear();
     state.chats.clear();
 
-    Map<String, dynamic> header = {'Authorization':context.read<AuthCubit>().getAcessToken()};
-    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8080/ws'), headers:header);
+    logger.d('ws://localhost:8000/magician/ws/'+context.read<AuthCubit>().getEmail());
+
+    state.socket = IOWebSocketChannel.connect(Uri.parse('ws://10.0.2.2:8000/magician/ws/'+context.read<AuthCubit>().getEmail()));
 
     logger.d('서버 연결 시작');
 
@@ -104,6 +107,11 @@ class WizardCubit extends Cubit<WizardState> {
 
   void setExplain(String newExplain) {
     state.explain = newExplain;
+  }
+
+  Future<void> roomCheck(BuildContext context, AuthRepository aRepo, ChatModel chat) async {
+    ReIssueModel reissue = await aRepo.getReIssue(context.read<AuthCubit>().getAcessToken());
+    context.read<AuthCubit>().setAccessToken(reissue.data.accessToken);
   }
 
   String getExplain() {

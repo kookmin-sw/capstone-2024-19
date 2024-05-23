@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'wizard_repository.g.dart';
 
-@RestApi(baseUrl: 'http://10.0.2.2:8080')
+@RestApi(baseUrl: 'http://10.0.2.2:8081')
 abstract class WizardRepository {
   factory WizardRepository(Dio dio, {String baseUrl}) = _WizardRepository;
 

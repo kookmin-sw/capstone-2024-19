@@ -20,7 +20,9 @@ ChatModel _$ChatModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ChatModel {
-  List<RoomModel> get chats => throw _privateConstructorUsedError;
+  String get code => throw _privateConstructorUsedError;
+  String get message => throw _privateConstructorUsedError;
+  List<RoomModel> get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +35,7 @@ abstract class $ChatModelCopyWith<$Res> {
   factory $ChatModelCopyWith(ChatModel value, $Res Function(ChatModel) then) =
       _$ChatModelCopyWithImpl<$Res, ChatModel>;
   @useResult
-  $Res call({List<RoomModel> chats});
+  $Res call({String code, String message, List<RoomModel> data});
 }
 
 /// @nodoc
@@ -49,12 +51,22 @@ class _$ChatModelCopyWithImpl<$Res, $Val extends ChatModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chats = null,
+    Object? code = null,
+    Object? message = null,
+    Object? data = null,
   }) {
     return _then(_value.copyWith(
-      chats: null == chats
-          ? _value.chats
-          : chats // ignore: cast_nullable_to_non_nullable
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
               as List<RoomModel>,
     ) as $Val);
   }
@@ -68,7 +80,7 @@ abstract class _$$ChatModelImplCopyWith<$Res>
       __$$ChatModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<RoomModel> chats});
+  $Res call({String code, String message, List<RoomModel> data});
 }
 
 /// @nodoc
@@ -82,12 +94,22 @@ class __$$ChatModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chats = null,
+    Object? code = null,
+    Object? message = null,
+    Object? data = null,
   }) {
     return _then(_$ChatModelImpl(
-      chats: null == chats
-          ? _value._chats
-          : chats // ignore: cast_nullable_to_non_nullable
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as String,
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
               as List<RoomModel>,
     ));
   }
@@ -96,22 +118,30 @@ class __$$ChatModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ChatModelImpl implements _ChatModel {
-  _$ChatModelImpl({required final List<RoomModel> chats}) : _chats = chats;
+  _$ChatModelImpl(
+      {required this.code,
+      required this.message,
+      required final List<RoomModel> data})
+      : _data = data;
 
   factory _$ChatModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChatModelImplFromJson(json);
 
-  final List<RoomModel> _chats;
   @override
-  List<RoomModel> get chats {
-    if (_chats is EqualUnmodifiableListView) return _chats;
+  final String code;
+  @override
+  final String message;
+  final List<RoomModel> _data;
+  @override
+  List<RoomModel> get data {
+    if (_data is EqualUnmodifiableListView) return _data;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_chats);
+    return EqualUnmodifiableListView(_data);
   }
 
   @override
   String toString() {
-    return 'ChatModel(chats: $chats)';
+    return 'ChatModel(code: $code, message: $message, data: $data)';
   }
 
   @override
@@ -119,13 +149,15 @@ class _$ChatModelImpl implements _ChatModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ChatModelImpl &&
-            const DeepCollectionEquality().equals(other._chats, _chats));
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.message, message) || other.message == message) &&
+            const DeepCollectionEquality().equals(other._data, _data));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_chats));
+  int get hashCode => Object.hash(
+      runtimeType, code, message, const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
   @override
@@ -142,13 +174,20 @@ class _$ChatModelImpl implements _ChatModel {
 }
 
 abstract class _ChatModel implements ChatModel {
-  factory _ChatModel({required final List<RoomModel> chats}) = _$ChatModelImpl;
+  factory _ChatModel(
+      {required final String code,
+      required final String message,
+      required final List<RoomModel> data}) = _$ChatModelImpl;
 
   factory _ChatModel.fromJson(Map<String, dynamic> json) =
       _$ChatModelImpl.fromJson;
 
   @override
-  List<RoomModel> get chats;
+  String get code;
+  @override
+  String get message;
+  @override
+  List<RoomModel> get data;
   @override
   @JsonKey(ignore: true)
   _$$ChatModelImplCopyWith<_$ChatModelImpl> get copyWith =>

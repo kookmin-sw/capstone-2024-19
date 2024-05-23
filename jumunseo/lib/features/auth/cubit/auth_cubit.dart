@@ -53,6 +53,18 @@ class AuthCubit extends Cubit<AuthState> {
     return state.accessToken;
   }
 
+  String getEmail() {
+    return state.email;
+  }
+
+  void setAccessToken(String accessToken_) {
+    emit(state.copyWith(accessToken: accessToken_));
+  }
+
+  CookieJar getCookie() {
+    return state.cookJar;
+  }
+
   Future<void> getInfo(BuildContext context) async {
     var connectivityResult = await (Connectivity().checkConnectivity());
 

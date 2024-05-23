@@ -7,7 +7,9 @@ part 'chat_model.freezed.dart';
 @freezed
 class ChatModel with _$ChatModel{
   factory ChatModel(
-      {required List<RoomModel> chats}) = _ChatModel;
+      {required String code,
+      required String message,
+      required List<RoomModel> data}) = _ChatModel;
 
   factory ChatModel.fromJson(Map<String, dynamic> json) =>
     _$ChatModelFromJson(json);
