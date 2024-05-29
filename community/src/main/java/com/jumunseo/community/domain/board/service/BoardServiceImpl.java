@@ -108,7 +108,12 @@ public class BoardServiceImpl implements BoardService {
         ) -> new NoBoardException("해당 게시글이 존재하지 않습니다."));
         board.addViewCount();
         BoardResponseDto boardResponseDto = mapper.entityToBoardResponse(board);
-        boardResponseDto.setMy_Like(likeRepository.findByBoardAndUserId(board, userId).isPresent());
+        if(userId.equals("UNSIGNED")) {
+            boardResponseDto.setMy_Like(false);
+        }
+        else {
+            boardResponseDto.setMy_Like(likeRepository.findByBoardAndUserId(board, userId).isPresent());
+        }
         return boardResponseDto; // 게시글 조회
     }
 
