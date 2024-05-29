@@ -53,12 +53,9 @@ public class TestController {
     // 3. 주제가 만료되고 나서 주제를 종료, 요약된 정보들을 반환.
     @GetMapping("/test")
     public ResponseEntity<Result<?>> test() {
-        System.out.println("0");
 
-        // 1. 주제 생성 일반적으로 주제 번호는 1이다.
         subjectService.addTestSubject();
-        Subject sub = subjectRepository.findById(1L).get();
-        System.out.println("1");
+        Subject sub = subjectRepository.findTop1ByOrderByIdDesc().get();
 
         // 2. opinion 생성 좌, 우 3개씩.
         Opinion opinionDtoL1 = Opinion.builder().content("맞다고 생각한다").type(MessageType.TALK).side(MessageSide.LEFT).subject(sub).userEmail("lms990427").time(LocalDateTime.now()).build();
@@ -79,8 +76,6 @@ public class TestController {
         opinionRepository.save(opinionDtoR3);
         opinionRepository.save(opinionDtoR4);
 
-        System.out.println("2");
-
         System.out.println("살이있는 주제" + subjectService.getLiveSubject());
         // 3. 주제 만료까지 대기. 요약 메소드를 호출.
         try {
@@ -92,10 +87,8 @@ public class TestController {
 
         subjectService.summarySubject();
 
-        System.out.println("3");
         // 4. 요약된 정보 반환.
-        SubjectSummary subjectSummary = subjectSummaryRepository.findById(1L).get();
-        System.out.println("4");
+        SubjectSummary subjectSummary = subjectSummaryRepository.findTop1ByOrderByIdDesc().get();
 
         return ResponseEntity.ok(Result.successResult(subjectSummary));
     }

@@ -126,9 +126,14 @@ public class CommunityQueryController {
     @Tag(name = "Community Query")
     @Operation(summary = "Community Detail", description = "커뮤니티 상세 조회")
     private ResponseEntity<Result<?>> getCommunityDetail(@PathVariable Long id, HttpServletRequest req) throws JsonProcessingException {
+        String email = (String) req.getAttribute("email");
+        if (email == null) {
+            email = "UNSIGNED";
+        }
+
         Mono<JSONObject> mono = webClient.get()
                 .uri(COMMUNITY_URL +"/community/board/detail/" + id)
-                .header("email", req.getAttribute("email").toString())
+                .header("email", email)
                 .retrieve()
                 // 4-- 에러 -> 요청 오류
                 .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
@@ -165,6 +170,28 @@ public class CommunityQueryController {
             return ResponseEntity.ok(Result.successResult(boardResponseDto));
 
         }
+    }
+
+    // 좋아요 여부 조회
+    // 토큰 필요
+    @GetMapping("/like/{board_id}")
+    @Tag(name = "Community Query")
+    @Operation(summary = "Like Check", description = "좋아요 여부 조회")
+    private ResponseEntity<Result<?>> getLike(HttpServletRequest req, @PathVariable Long board_id) {
+        Mono<JSONObject> mono = webClient.get()
+                .uri(COMMUNITY_URL +"/community/board/like/" + board_id)
+                .header("email", req.getAttribute("email").toString())
+                .retrieve()
+                // 4-- 에러 -> 요청 오류
+                .onStatus(HttpStatusCode::is4xxClientError, res -> Mono.error(
+                        new WebClient4xxException(res.bodyToMono(String.class).toString())
+                ))
+                // 5-- 에러 -> 시스템 오류
+                .onStatus(HttpStatusCode::is5xxServerError, res -> Mono.error(
+                        new WebClient5xxException(res.bodyToMono(String.class).toString())
+                ))
+                .bodyToMono(JSONObject.class);
+        return ResponseEntity.ok(Result.successResult(mono.block().get("data")));
     }
 
 

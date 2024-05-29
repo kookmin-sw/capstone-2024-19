@@ -40,7 +40,8 @@ public class CommunityCommandController {
     @PostMapping("/board/create")
     @Tag(name = "Community Command")
     @Operation(summary = "Posting Create", description = "게시글 생성 메소드")
-    public ResponseEntity<Result<?>> createBoard(HttpServletRequest request, @RequestPart BoardRequestDto boardRequestDto, @RequestPart(required = false) List<MultipartFile> files) {
+    public ResponseEntity<Result<?>> createBoard(HttpServletRequest request, @RequestPart BoardRequestDto boardRequestDto,
+                                                 @RequestPart(required = false) List<MultipartFile> files) {
         try {
             List<String> imageUrls = new ArrayList<>();
             for (MultipartFile file : files) {

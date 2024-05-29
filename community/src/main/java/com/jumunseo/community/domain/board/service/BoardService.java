@@ -31,6 +31,8 @@ public interface BoardService {
     List<BoardListPhotoResponseDto> getBoardPhotoListByLatest(Long index);
 
     // 6. 게시글 좋아요 (토글)
-
     void Like(Long boardId, String userId);
+
+    // 7. 게시글 좋아요 여부
+    boolean isLiked(Long boardId, String email);
 }

@@ -46,4 +46,10 @@ public class BoardQueryController {
     public ResponseEntity<Result<?>> getBoardDetail(@RequestHeader("email") String userId, @PathVariable Long id) {
         return ResponseEntity.ok().body(Result.successResult(boardService.getBoard(id, userId)));
     }
+
+    // 게시글 좋아요 여부
+    @GetMapping("/like/{id}")
+    public ResponseEntity<Result<?>> getBoardLike(@RequestHeader("email") String userId, @PathVariable Long id) {
+        return ResponseEntity.ok().body(Result.successResult(boardService.isLiked(id, userId)));
+    }
 }
