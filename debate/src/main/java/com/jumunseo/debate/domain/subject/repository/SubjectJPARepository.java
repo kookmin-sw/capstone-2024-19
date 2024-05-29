@@ -18,5 +18,8 @@ public interface SubjectJPARepository extends JpaRepository<Subject, Long> {
     @Query("SELECT new com.jumunseo.debate.domain.subject.dto.SubjectCollectDto(s.contents) FROM Subject s ORDER BY s.startTime DESC LIMIT 30")
     List<SubjectCollectDto> findTop30ByStartTimeOrderByStartTimeDesc(LocalDateTime startTime);
     Optional<Subject> findSubjectDtoById (Long id);
-    Optional<Subject> findTop1ByEndTimeBefore(LocalDateTime endTime);
+    Optional<Subject> findTop1ByEndTimeBeforeOrderByStartTimeDesc(LocalDateTime endTime);
+
+    // Test
+    Optional<Subject> findTop1ByOrderByIdDesc();
 }

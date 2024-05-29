@@ -31,5 +31,5 @@ public interface SubjectService {
 
     SubjectSummary getSubjectSummary(Long subjectId);
 
-    Long getLatestSubjectSummary();
+    SubjectSummary getLatestSubjectSummary();
 }

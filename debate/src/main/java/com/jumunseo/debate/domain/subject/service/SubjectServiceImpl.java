@@ -47,7 +47,7 @@ public class SubjectServiceImpl implements SubjectService{
             try {
                 // 시간이 지난 주제에 대해 요약을 하고, 해당 주제를 레디스 토픽에서 삭제한다.
                 // 1. 시간이 막 지난 주제를 가져온다.
-                Subject subject = subjectRepository.findTop1ByEndTimeBefore(LocalDateTime.now())
+                Subject subject = subjectRepository.findTop1ByEndTimeBeforeOrderByStartTimeDesc(LocalDateTime.now())
                         .orElseThrow(() -> new NotExistSubjectException("요약할 주제가 없습니다."));
 
                 // 2. 해당 주제를 레디스 토픽에서 삭제한다.
@@ -200,10 +200,9 @@ public class SubjectServiceImpl implements SubjectService{
 
     @Override
     @Transactional
-    public Long getLatestSubjectSummary(){
-        SubjectSummary subjectSummary = subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
+    public SubjectSummary getLatestSubjectSummary(){
+        return subjectSummartJPARepository.findTop1ByOrderByIdDesc().orElseThrow((
         ) -> new NotExistSubjectException("최신 주제의 요약이 존재하지 않습니다."));
-        return subjectSummary.getId();
     }
 
     @Transactional
